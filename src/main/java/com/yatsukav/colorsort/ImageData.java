@@ -23,7 +23,7 @@ public class ImageData {
 
         for (int y = 0; y < image.getHeight(); y++) {
             for (int x = 0; x < image.getWidth(); x++) {
-                result[(y + 1) * x] = image.getRGB(x, y);
+                result[x + y * image.getWidth()] = image.getRGB(x, y);
             }
         }
 
@@ -33,7 +33,7 @@ public class ImageData {
     public void setColors(int[] data) {
         for (int y = 0; y < image.getHeight(); y++) {
             for (int x = 0; x < image.getWidth(); x++) {
-                image.setRGB(x, y, data[(y + 1) * x]);
+                image.setRGB(x, y, data[x + y * image.getWidth()]);
             }
         }
     }
