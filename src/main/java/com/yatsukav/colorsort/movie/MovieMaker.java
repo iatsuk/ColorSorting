@@ -16,6 +16,6 @@ public class MovieMaker {
             System.exit(0);
         }
         int interval = 50;
-        imageToMovie.doIt(1920, 1080, (1000 / interval), imgLst, oml);
+        imageToMovie.doIt(1920, 1080, 60, imgLst, oml);
     }
 }

@@ -1,7 +1,10 @@
 package com.yatsukav.colorsort;
 
+import com.yatsukav.colorsort.ui.MainWindow;
+
 public class App {
+
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        MainWindow.getInstance().show();
     }
 }
