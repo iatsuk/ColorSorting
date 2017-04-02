@@ -1,8 +1,15 @@
 package com.yatsukav.colorsort.ui;
 
+import com.yatsukav.colorsort.ImageData;
+import com.yatsukav.colorsort.movie.MovieMaker;
+import com.yatsukav.colorsort.sorts.ImageSorter;
+
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 
 public class MainWindow {
     private static MainWindow instance = new MainWindow();
@@ -22,6 +29,7 @@ public class MainWindow {
     }
 
     private MainWindow() {
+        startButton.addActionListener(new ImageToMovieConverter());
         openButton.addActionListener(e -> {
             if (fc.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION) {
                 inPathTextField.setText(fc.getSelectedFile().getAbsolutePath());
@@ -50,7 +58,23 @@ public class MainWindow {
         frame.setVisible(true);
     }
 
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
+    private class ImageToMovieConverter implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                ImageData imageData = new ImageData(new File(inPathTextField.getText()).toURI());
+                ImageSorter imageSorter = ImageSorter.of(sortComboBox.getModel().getSelectedItem().toString(), imageData);
+                imageSorter.sort(imageData.getColors());
+
+                int width, height;
+                width = Integer.parseInt(widthComboBox.getModel().getSelectedItem().toString().replaceAll("[\\D+]", ""));
+                height = (int) (imageData.getHeight() * ((double) width / imageData.getWidth()));
+
+                MovieMaker.makeVideo(outVideoTextField.getText(), imageSorter.getImages(), width, height);
+            } catch (Exception e1) {
+                throw new IllegalStateException(e1);
+            }
+        }
     }
 }

@@ -51,11 +51,11 @@ import java.util.Vector;
  */
 class JpegImagesToMovie implements ControllerListener, DataSinkListener {
 
-    Object waitSync = new Object();
-    boolean stateTransitionOK = true;
-    Object waitFileSync = new Object();
-    boolean fileDone = false;
-    boolean fileSuccess = true;
+    private Object waitSync = new Object();
+    private boolean stateTransitionOK = true;
+    private Object waitFileSync = new Object();
+    private boolean fileDone = false;
+    private boolean fileSuccess = true;
 
     static void prUsage() {
         System.err
@@ -99,7 +99,7 @@ class JpegImagesToMovie implements ControllerListener, DataSinkListener {
             p = Manager.createProcessor(ids);
         } catch (Exception e) {
             System.err
-                    .println("Yikes!  Cannot create a processor from the data source.");
+                    .println("Yikes!  Cannot create a processor from the image source.");
             return false;
         }
 
@@ -439,7 +439,7 @@ class JpegImagesToMovie implements ControllerListener, DataSinkListener {
         }
 
         /**
-         * We should never need to block assuming data are read from files.
+         * We should never need to block assuming image are read from files.
          */
         public boolean willReadBlock() {
             return false;
@@ -447,7 +447,7 @@ class JpegImagesToMovie implements ControllerListener, DataSinkListener {
 
         /**
          * This is called from the Processor to read a frame worth of video
-         * data.
+         * image.
          */
         public void read(Buffer buf) throws IOException {
 

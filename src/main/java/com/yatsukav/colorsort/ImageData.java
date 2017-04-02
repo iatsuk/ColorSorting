@@ -41,4 +41,12 @@ public class ImageData {
     public void save(String format, File path) throws IOException {
         ImageIO.write(image, format, path);
     }
+
+    public int getWidth() {
+        return image.getWidth();
+    }
+
+    public int getHeight() {
+        return image.getHeight();
+    }
 }

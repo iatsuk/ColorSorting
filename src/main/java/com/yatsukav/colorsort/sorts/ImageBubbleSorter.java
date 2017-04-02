@@ -1,5 +1,9 @@
 package com.yatsukav.colorsort.sorts;
 
+import com.yatsukav.colorsort.ImageData;
+
+import java.io.IOException;
+
 /**
  * Bubble sort is a simple sorting algorithm that works by repeatedly stepping
  * through the list to be sorted, comparing each pair of adjacent items and
@@ -16,20 +20,22 @@ package com.yatsukav.colorsort.sorts;
  *
  * @author Justin Wetherell <phishman3579@gmail.com>
  */
-public class BubbleSort<T extends Comparable<T>> {
+public class ImageBubbleSorter extends ImageSorter {
 
-    private BubbleSort() {
+    public ImageBubbleSorter(ImageData image) throws IOException {
+        super(image);
     }
 
-    public static <T extends Comparable<T>> T[] sort(T[] unsorted) {
+    public int[] sort(int[] unsorted) {
         boolean swapped = true;
         int length = unsorted.length;
         while (swapped) {
             swapped = false;
             for (int i = 1; i < length; i++) {
-                if (unsorted[i].compareTo(unsorted[i - 1]) < 0) {
+                if (unsorted[i] < unsorted[i - 1]) {
                     swap(i, i - 1, unsorted);
                     swapped = true;
+                    persistStep(unsorted);
                 }
             }
             length--;
@@ -37,8 +43,8 @@ public class BubbleSort<T extends Comparable<T>> {
         return unsorted;
     }
 
-    private static <T extends Comparable<T>> void swap(int index1, int index2, T[] unsorted) {
-        T value = unsorted[index1];
+    private void swap(int index1, int index2, int[] unsorted) {
+        int value = unsorted[index1];
         unsorted[index1] = unsorted[index2];
         unsorted[index2] = value;
     }

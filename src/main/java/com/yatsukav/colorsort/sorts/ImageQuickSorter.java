@@ -1,5 +1,8 @@
 package com.yatsukav.colorsort.sorts;
 
+import com.yatsukav.colorsort.ImageData;
+
+import java.io.IOException;
 import java.util.Random;
 
 /**
@@ -17,15 +20,22 @@ import java.util.Random;
  *
  * @author Justin Wetherell <phishman3579@gmail.com>
  */
-public class QuickSort<T extends Comparable<T>> {
+public class ImageQuickSorter extends ImageSorter {
 
     private static final Random RAND = new Random();
-    public static PIVOT_TYPE type = PIVOT_TYPE.RANDOM;
+    public PIVOT_TYPE type = PIVOT_TYPE.RANDOM;
 
-    private QuickSort() {
+    public ImageQuickSorter(ImageData image) throws IOException {
+        super(image);
     }
 
-    public static <T extends Comparable<T>> T[] sort(PIVOT_TYPE pivotType, T[] unsorted) {
+
+    @Override
+    public int[] sort(int[] unsorted) {
+        return sort(PIVOT_TYPE.RANDOM, unsorted);
+    }
+
+    public int[] sort(PIVOT_TYPE pivotType, int[] unsorted) {
         int pivot = 0;
         if (pivotType == PIVOT_TYPE.MIDDLE) {
             pivot = unsorted.length / 2;
@@ -36,20 +46,21 @@ public class QuickSort<T extends Comparable<T>> {
         return unsorted;
     }
 
-    private static <T extends Comparable<T>> void sort(int index, int start, int finish, T[] unsorted) {
+    private void sort(int index, int start, int finish, int[] unsorted) {
         int pivotIndex = start + index;
-        T pivot = unsorted[pivotIndex];
+        int pivot = unsorted[pivotIndex];
         int s = start;
         int f = finish;
         while (s <= f) {
-            while (unsorted[s].compareTo(pivot) < 0)
+            while (unsorted[s] < pivot)
                 s++;
-            while (unsorted[f].compareTo(pivot) > 0)
+            while (unsorted[f] > pivot)
                 f--;
             if (s <= f) {
                 swap(s, f, unsorted);
                 s++;
                 f--;
+                persistStep(unsorted);
             }
         }
         if (start < f) {
@@ -62,7 +73,7 @@ public class QuickSort<T extends Comparable<T>> {
         }
     }
 
-    private static final int getRandom(int length) {
+    private final int getRandom(int length) {
         if (type == PIVOT_TYPE.RANDOM && length > 0)
             return RAND.nextInt(length);
         if (type == PIVOT_TYPE.FIRST && length > 0)
@@ -70,8 +81,8 @@ public class QuickSort<T extends Comparable<T>> {
         return length / 2;
     }
 
-    private static <T extends Comparable<T>> void swap(int index1, int index2, T[] unsorted) {
-        T index2Element = unsorted[index1];
+    private void swap(int index1, int index2, int[] unsorted) {
+        int index2Element = unsorted[index1];
         unsorted[index1] = unsorted[index2];
         unsorted[index2] = index2Element;
     }
