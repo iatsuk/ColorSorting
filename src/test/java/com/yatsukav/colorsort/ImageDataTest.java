@@ -24,9 +24,9 @@ public class ImageDataTest {
         URI squareUri = AppTest.class.getClassLoader().getResource("square.bmp").toURI();
         URI rgbwUri = AppTest.class.getClassLoader().getResource("rgbw.bmp").toURI();
 
-        line = new ImageData(lineUri);
-        square = new ImageData(squareUri);
-        rgbw = new ImageData(rgbwUri);
+        line = new ImageData().load(lineUri);
+        square = new ImageData().load(squareUri);
+        rgbw = new ImageData().load(rgbwUri);
     }
 
     @Test
@@ -67,7 +67,7 @@ public class ImageDataTest {
         rgbw.save("bmp", file);
         Assert.assertTrue(Files.exists(file.toPath()));
 
-        Assert.assertArrayEquals(rgbw.getColors(), new ImageData(file.toURI()).getColors());
+        Assert.assertArrayEquals(rgbw.getColors(), new ImageData().load(file.toURI()).getColors());
     }
 
 }

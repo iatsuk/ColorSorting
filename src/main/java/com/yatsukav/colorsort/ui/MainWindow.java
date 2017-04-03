@@ -63,7 +63,7 @@ public class MainWindow {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                ImageData imageData = new ImageData(new File(inPathTextField.getText()).toURI());
+                ImageData imageData = new ImageData().load(new File(inPathTextField.getText()).toURI());
                 ImageSorter imageSorter = ImageSorter.of(sortComboBox.getModel().getSelectedItem().toString(), imageData);
                 imageSorter.sort(imageData.getColors());
 

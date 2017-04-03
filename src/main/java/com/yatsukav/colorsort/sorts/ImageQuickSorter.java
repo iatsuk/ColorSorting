@@ -1,8 +1,5 @@
 package com.yatsukav.colorsort.sorts;
 
-import com.yatsukav.colorsort.ImageData;
-
-import java.io.IOException;
 import java.util.Random;
 
 /**
@@ -21,32 +18,27 @@ import java.util.Random;
  * @author Justin Wetherell <phishman3579@gmail.com>
  */
 public class ImageQuickSorter extends ImageSorter {
-
     private static final Random RAND = new Random();
-    public PIVOT_TYPE type = PIVOT_TYPE.RANDOM;
-
-    public ImageQuickSorter(ImageData image) throws IOException {
-        super(image);
-    }
-
+    private PIVOT_TYPE type = PIVOT_TYPE.RANDOM;
+    private int maxOutputImages;
 
     @Override
-    public int[] sort(int[] unsorted) {
-        return sort(PIVOT_TYPE.RANDOM, unsorted);
+    public int calcMaxOutputImages() {
+        sort(image.getColors(), false, Integer.MAX_VALUE);
+        return maxOutputImages;
     }
 
-    public int[] sort(PIVOT_TYPE pivotType, int[] unsorted) {
-        int pivot = 0;
-        if (pivotType == PIVOT_TYPE.MIDDLE) {
-            pivot = unsorted.length / 2;
-        } else if (pivotType == PIVOT_TYPE.RANDOM) {
-            pivot = getRandom(unsorted.length);
-        }
-        sort(pivot, 0, unsorted.length - 1, unsorted);
-        return unsorted;
+    @Override
+    protected void sort(int persistStep) {
+        sort(image.getColors(), true, persistStep);
     }
 
-    private void sort(int index, int start, int finish, int[] unsorted) {
+    private void sort(int[] unsorted, boolean withPersisting, int persistStep) {
+        maxOutputImages = 0;
+        sort(getRandom(unsorted.length), 0, unsorted.length - 1, unsorted, withPersisting, persistStep);
+    }
+
+    private void sort(int index, int start, int finish, int[] unsorted, boolean withPersisting, int persistStep) {
         int pivotIndex = start + index;
         int pivot = unsorted[pivotIndex];
         int s = start;
@@ -60,20 +52,21 @@ public class ImageQuickSorter extends ImageSorter {
                 swap(s, f, unsorted);
                 s++;
                 f--;
-                persistStep(unsorted);
+                maxOutputImages++;
+                if (withPersisting && maxOutputImages % persistStep == 0) persistStep(unsorted);
             }
         }
         if (start < f) {
             pivotIndex = getRandom((f - start) + 1);
-            sort(pivotIndex, start, f, unsorted);
+            sort(pivotIndex, start, f, unsorted, withPersisting, persistStep);
         }
         if (s < finish) {
             pivotIndex = getRandom((finish - s) + 1);
-            sort(pivotIndex, s, finish, unsorted);
+            sort(pivotIndex, s, finish, unsorted, withPersisting, persistStep);
         }
     }
 
-    private final int getRandom(int length) {
+    private int getRandom(int length) {
         if (type == PIVOT_TYPE.RANDOM && length > 0)
             return RAND.nextInt(length);
         if (type == PIVOT_TYPE.FIRST && length > 0)

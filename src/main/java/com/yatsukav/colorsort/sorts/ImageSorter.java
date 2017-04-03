@@ -4,44 +4,55 @@ import com.yatsukav.colorsort.ImageData;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Vector;
 
 public abstract class ImageSorter {
-    protected final ImageData image;
-    private final Path tmpFolder;
+    protected ImageData image;
+    private String path;
     private Vector<String> images = new Vector<>();
     private int counter = 0;
 
-    public ImageSorter(ImageData image) throws IOException {
-        this.image = image;
-        tmpFolder = Files.createTempDirectory("color_sort");
-        System.out.println(tmpFolder.toAbsolutePath());
+    public static ImageSorter of(String s) throws IOException {
+        switch (s) {
+            case "Bubble Sort": return new ImageBubbleSorter();
+            case "Quick Sort": return new ImageQuickSorter();
+            default: throw new IllegalArgumentException("Unknown ImageSorter type: " + s);
+        }
     }
 
-    public abstract int[] sort(int[] unsorted);
+    public ImageSorter setImage(ImageData image) {
+        this.image = image;
+        return this;
+    }
 
-    protected void persistStep(int[] data) {
-        try {
-            image.setColors(data);
-            String path = tmpFolder.toAbsolutePath().toString() + File.separator + "i" + counter++;
-            image.save("jpeg", new File(path));
-            images.add(path);
-        } catch (Exception e) {
-            throw new IllegalStateException(e);
-        }
+    public ImageSorter setPath(String path) {
+        this.path = path;
+        return this;
+    }
+
+    public void save(int persistStep) {
+        if (image == null) throw new IllegalStateException("Image data not defined");
+        if (path == null) throw new IllegalStateException("Output path not defined");
+        sort(persistStep);
     }
 
     public Vector<String> getImages() {
         return images;
     }
 
-    public static ImageSorter of(String s, ImageData image) throws IOException {
-        switch (s) {
-            case "Bubble Sort": return new ImageBubbleSorter(image);
-            case "Quick Sort": return new ImageQuickSorter(image);
-            default: throw new IllegalArgumentException("Unknown ImageSorter type: " + s);
+    protected void persistStep(int[] data) {
+        try {
+            image.setColors(data);
+            File imgPath = Paths.get(path, "i" + counter++ + ".jpg").toFile();
+            image.save("jpeg", imgPath);
+            images.add(path);
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
         }
     }
+
+    public abstract int calcMaxOutputImages();
+
+    protected abstract void sort(int persistStep);
 }
