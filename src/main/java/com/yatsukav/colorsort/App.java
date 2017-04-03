@@ -6,7 +6,6 @@ import com.yatsukav.colorsort.ui.MainWindow;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 
 public final class App {
 
@@ -23,6 +22,7 @@ public final class App {
 
     public static void start(String inputPath, String outputPath, String sortMethod, int videoResolution, int maxDuration) {
         try {
+            long time = System.currentTimeMillis();
             ImageData imageData = new ImageData().load(new File(inputPath).toURI());
             ImageSorter imageSorter = ImageSorter.of(sortMethod).setImage(imageData);
 
@@ -52,6 +52,8 @@ public final class App {
 
             delete(new File("tmp"));
             delete(new File("jmf.log"));
+
+            System.out.println("Converting time: " + (System.currentTimeMillis() - time));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -61,10 +63,14 @@ public final class App {
         return (int) (height * ((double) newWidth / width));
     }
 
-    static void delete(File f) throws IOException {
-        if (f.isDirectory()) {
-            for (File c : f.listFiles()) delete(c);
+    static void delete(File f) {
+        try {
+            if (f.isDirectory()) {
+                for (File c : f.listFiles()) delete(c);
+            }
+            if (!f.delete()) throw new FileNotFoundException("Failed to delete file: " + f);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
-        if (!f.delete()) throw new FileNotFoundException("Failed to delete file: " + f);
     }
 }
