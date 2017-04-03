@@ -17,10 +17,10 @@ package com.yatsukav.colorsort.sorts;
  * @author Justin Wetherell <phishman3579@gmail.com>
  */
 public class ImageBubbleSorter extends ImageSorter {
-    private int maxOutputImages;
+    private long maxOutputImages;
 
     @Override
-    public int calcMaxOutputImages() {
+    public long calcMaxOutputImages() {
         sort(image.getColors(), false, Integer.MAX_VALUE);
         return maxOutputImages;
     }

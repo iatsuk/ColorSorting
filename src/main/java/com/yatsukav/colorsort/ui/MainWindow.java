@@ -1,15 +1,12 @@
 package com.yatsukav.colorsort.ui;
 
-import com.yatsukav.colorsort.ImageData;
-import com.yatsukav.colorsort.movie.MovieMaker;
-import com.yatsukav.colorsort.sorts.ImageSorter;
+import com.yatsukav.colorsort.App;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
 
 public class MainWindow {
     private static MainWindow instance = new MainWindow();
@@ -62,19 +59,11 @@ public class MainWindow {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            try {
-                ImageData imageData = new ImageData().load(new File(inPathTextField.getText()).toURI());
-                ImageSorter imageSorter = ImageSorter.of(sortComboBox.getModel().getSelectedItem().toString(), imageData);
-                imageSorter.sort(imageData.getColors());
-
-                int width, height;
-                width = Integer.parseInt(widthComboBox.getModel().getSelectedItem().toString().replaceAll("[\\D+]", ""));
-                height = (int) (imageData.getHeight() * ((double) width / imageData.getWidth()));
-
-                MovieMaker.makeVideo(outVideoTextField.getText(), imageSorter.getImages(), width, height);
-            } catch (Exception e1) {
-                throw new IllegalStateException(e1);
-            }
+            String inputPath = inPathTextField.getText();
+            String outputPath = outVideoTextField.getText();
+            String sortMethod = sortComboBox.getModel().getSelectedItem().toString();
+            int videoResolution = Integer.parseInt(widthComboBox.getModel().getSelectedItem().toString().replaceAll("[\\D+]", ""));
+            App.start(inputPath, outputPath, sortMethod, videoResolution, 15); // TODO: 04.04.17 duration
         }
     }
 }

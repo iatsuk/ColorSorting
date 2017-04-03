@@ -4,6 +4,7 @@ import com.yatsukav.colorsort.ImageData;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Vector;
 
@@ -31,9 +32,10 @@ public abstract class ImageSorter {
         return this;
     }
 
-    public void save(int persistStep) {
+    public void save(int persistStep) throws IOException {
         if (image == null) throw new IllegalStateException("Image data not defined");
         if (path == null) throw new IllegalStateException("Output path not defined");
+        Files.createDirectory(Paths.get(path));
         sort(persistStep);
     }
 
@@ -46,13 +48,13 @@ public abstract class ImageSorter {
             image.setColors(data);
             File imgPath = Paths.get(path, "i" + counter++ + ".jpg").toFile();
             image.save("jpeg", imgPath);
-            images.add(path);
+            images.add(imgPath.toString());
         } catch (Exception e) {
             throw new IllegalStateException(e);
         }
     }
 
-    public abstract int calcMaxOutputImages();
+    public abstract long calcMaxOutputImages();
 
     protected abstract void sort(int persistStep);
 }

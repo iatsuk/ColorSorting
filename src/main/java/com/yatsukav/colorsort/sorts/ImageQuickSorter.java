@@ -20,10 +20,10 @@ import java.util.Random;
 public class ImageQuickSorter extends ImageSorter {
     private static final Random RAND = new Random();
     private PIVOT_TYPE type = PIVOT_TYPE.RANDOM;
-    private int maxOutputImages;
+    private long maxOutputImages;
 
     @Override
-    public int calcMaxOutputImages() {
+    public long calcMaxOutputImages() {
         sort(image.getColors(), false, Integer.MAX_VALUE);
         return maxOutputImages;
     }
