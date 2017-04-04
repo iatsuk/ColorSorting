@@ -3,6 +3,7 @@ package com.yatsukav.colorsort.ui;
 import com.yatsukav.colorsort.App;
 
 import javax.swing.*;
+import javax.swing.text.NumberFormatter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -48,7 +49,6 @@ public class MainWindow {
                 System.exit(0);
             }
         });
-        durationSecSpinner.setValue(15);
 
         frame.setContentPane(mainPanel);
         frame.pack();
@@ -56,6 +56,13 @@ public class MainWindow {
 
     public void show() {
         frame.setVisible(true);
+    }
+
+    private void createUIComponents() {
+        SpinnerNumberModel spinnerModel = new SpinnerNumberModel(15, 1, Integer.MAX_VALUE, 1);
+        durationSecSpinner = new JSpinner(spinnerModel);
+        JFormattedTextField txt = ((JSpinner.NumberEditor) durationSecSpinner.getEditor()).getTextField();
+        ((NumberFormatter) txt.getFormatter()).setAllowsInvalid(false);
     }
 
     private class ImageToMovieConverter implements ActionListener {
