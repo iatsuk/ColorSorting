@@ -1,6 +1,7 @@
 package com.yatsukav.colorsort.ui;
 
 import com.yatsukav.colorsort.App;
+import lombok.Getter;
 
 import javax.swing.*;
 import javax.swing.text.NumberFormatter;
@@ -10,7 +11,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class MainWindow {
-    private static MainWindow instance = new MainWindow();
+    @Getter private static MainWindow instance = new MainWindow();
     private final JFileChooser fc = new JFileChooser();
     private final JFrame frame = new JFrame();
     private JTextField inPathTextField;
@@ -20,13 +21,9 @@ public class MainWindow {
     private JButton startButton;
     private JComboBox sortComboBox;
     private JPanel mainPanel;
-    private JProgressBar progressBar;
-    private JLabel statusBarLabel;
     private JSpinner durationSecSpinner;
-
-    public static MainWindow getInstance() {
-        return instance;
-    }
+    @Getter private JProgressBar progressBar;
+    @Getter private JLabel statusBarLabel;
 
     private MainWindow() {
         startButton.addActionListener(new ImageToMovieConverter());

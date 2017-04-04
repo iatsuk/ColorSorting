@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.util.UUID;
 
 public final class App {
+    private static final StatusUpdater statusUpdater = new StatusUpdater();
 
     private App() {
     }
@@ -16,6 +17,8 @@ public final class App {
     public static void main(String[] args) {
         if (args.length == 0) {
             MainWindow.getInstance().show();
+            statusUpdater.setProgressBar(MainWindow.getInstance().getProgressBar());
+            statusUpdater.setStatusLabel(MainWindow.getInstance().getStatusBarLabel());
         } else {
             start(args[0], args[1], args[2], Integer.parseInt(args[4]));
         }
@@ -26,9 +29,11 @@ public final class App {
             long time = System.currentTimeMillis();
             final String TEMP_PATH = "_tmp" + UUID.randomUUID();
 
+            statusUpdater.setMessage("Loading image...");
             ImageData imageData = new ImageData().load(new File(inputPath).toURI());
             ImageSorter imageSorter = ImageSorter.of(sortMethod).setImage(imageData);
 
+            statusUpdater.setMessage("Calculating total time of work...");
             long maxOutputImages = imageSorter.calcMaxOutputImages();
             int frameRate = 30;
             int step = 1;
@@ -41,23 +46,32 @@ public final class App {
             System.out.println("Frame rate: " + frameRate);
             System.out.println("Step: " + step);
 
-            imageSorter.setPath(TEMP_PATH).save(step);
+            statusUpdater.setMessage("Draw frames...");
+            statusUpdater.setMaxSteps((int) maxOutputImages / step);
+            imageSorter.setStatusUpdater(statusUpdater)
+                    .setPath(TEMP_PATH)
+                    .save(step);
 
             System.out.println("Images: ");
             imageSorter.getImages().forEach(System.out::println);
 
+            statusUpdater.setMessage("Combine frames in video...");
             MovieMaker.makeVideo(outputPath, imageSorter.getImages(), imageData.getWidth(), imageData.getHeight(), frameRate);
 
+            statusUpdater.setMessage("Clean up...");
             delete(new File(TEMP_PATH));
             delete(new File("jmf.log"));
 
-            System.out.println("Converting time: " + (System.currentTimeMillis() - time));
+            String totalTime = "Converting time: " + (System.currentTimeMillis() - time);
+            System.out.println(totalTime);
+            statusUpdater.setMessage(totalTime);
         } catch (Exception e) {
+            statusUpdater.setMessage(e.getMessage());
             e.printStackTrace();
         }
     }
 
-    static void delete(File f) {
+    private static void delete(File f) {
         try {
             if (f.isDirectory()) {
                 for (File c : f.listFiles()) delete(c);

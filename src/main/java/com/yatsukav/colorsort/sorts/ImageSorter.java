@@ -1,6 +1,7 @@
 package com.yatsukav.colorsort.sorts;
 
 import com.yatsukav.colorsort.ImageData;
+import com.yatsukav.colorsort.StatusUpdater;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,6 +14,7 @@ public abstract class ImageSorter {
     private String path;
     private Vector<String> images = new Vector<>();
     private int counter = 0;
+    private StatusUpdater statusUpdater = null;
 
     public static ImageSorter of(String s) throws IOException {
         switch (s) {
@@ -32,6 +34,11 @@ public abstract class ImageSorter {
         return this;
     }
 
+    public ImageSorter setStatusUpdater(StatusUpdater statusUpdater) {
+        this.statusUpdater = statusUpdater;
+        return this;
+    }
+
     public void save(int persistStep) throws IOException {
         if (image == null) throw new IllegalStateException("Image data not defined");
         if (path == null) throw new IllegalStateException("Output path not defined");
@@ -43,8 +50,12 @@ public abstract class ImageSorter {
         return images;
     }
 
-    protected void persistStep(int[] data) {
+    void persistStep(int[] data) {
         try {
+            if (statusUpdater != null) {
+                statusUpdater.setMessage("Draw frames... " + counter + "/" + statusUpdater.getMaxSteps());
+                statusUpdater.setCurrStep(counter);
+            }
             image.setColors(data);
             File imgPath = Paths.get(path, "i" + counter++ + ".jpg").toFile();
             image.save("jpeg", imgPath);

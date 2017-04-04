@@ -4,7 +4,7 @@
 
     <groupId>com.yatsukav.colorsort</groupId>
     <artifactId>ColorSorting</artifactId>
-    <version>0.0.9-SNAPSHOT</version>
+    <version>0.0.10-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>ColorSorting</name>
@@ -15,24 +15,33 @@
     </properties>
 
     <dependencies>
+        <!-- Video utils -->
         <dependency>
             <groupId>javax.media</groupId>
             <artifactId>jmf</artifactId>
             <version>fs-3.0</version>
         </dependency>
 
+        <!-- Test utils -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
             <version>2.0.2-beta</version>
             <scope>test</scope>
+        </dependency>
+
+        <!-- Pre compile -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.16</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
