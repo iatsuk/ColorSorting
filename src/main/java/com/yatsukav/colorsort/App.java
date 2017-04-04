@@ -49,7 +49,7 @@ public final class App {
             System.out.println("Step: " + step);
 
             statusUpdater.setMessage("Draw frames...");
-            statusUpdater.setMaxSteps((int) maxOutputImages / step);
+            statusUpdater.setMaxSteps((int) (maxOutputImages / step));
             imageSorter.setStatusUpdater(statusUpdater)
                     .setPath(TEMP_PATH)
                     .save(step);
