@@ -66,11 +66,40 @@ public class MainWindow {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            // disable ui
+            disableUI();
+
+            // run in thread
             String inputPath = inPathTextField.getText();
             String outputPath = outVideoTextField.getText();
             String sortMethod = sortComboBox.getModel().getSelectedItem().toString();
             int duration = (int) durationSecSpinner.getValue();
-            App.start(inputPath, outputPath, sortMethod, duration);
+            new Thread(() -> {
+                App.start(inputPath, outputPath, sortMethod, duration);
+                enableUI();
+            }).start();
+
+            // enable ui
+        }
+
+        private void disableUI() {
+            inPathTextField.setEnabled(false);
+            openButton.setEnabled(false);
+            outVideoTextField.setEnabled(false);
+            saveButton.setEnabled(false);
+            startButton.setEnabled(false);
+            sortComboBox.setEnabled(false);
+            durationSecSpinner.setEnabled(false);
+        }
+
+        private void enableUI() {
+            inPathTextField.setEnabled(true);
+            openButton.setEnabled(true);
+            outVideoTextField.setEnabled(true);
+            saveButton.setEnabled(true);
+            startButton.setEnabled(true);
+            sortComboBox.setEnabled(true);
+            durationSecSpinner.setEnabled(true);
         }
     }
 }

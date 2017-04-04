@@ -26,6 +26,7 @@ public final class App {
 
     public static void start(String inputPath, String outputPath, String sortMethod, int maxDuration) {
         try {
+            statusUpdater.startUpdate();
             long time = System.currentTimeMillis();
             final String TEMP_PATH = "_tmp" + UUID.randomUUID();
 
@@ -62,9 +63,10 @@ public final class App {
             delete(new File(TEMP_PATH));
             delete(new File("jmf.log"));
 
-            String totalTime = "Converting time: " + (System.currentTimeMillis() - time);
+            String totalTime = "Converting time: " + (System.currentTimeMillis() - time + "ms");
             System.out.println(totalTime);
             statusUpdater.setMessage(totalTime);
+            statusUpdater.stopUpdate();
         } catch (Exception e) {
             statusUpdater.setMessage(e.getMessage());
             e.printStackTrace();

@@ -29,6 +29,7 @@ public class StatusUpdater extends Thread {
                 e.printStackTrace();
             }
         }
+        if (statusLabel != null) statusLabel.setText(message);
     }
 
     public void stopUpdate() {
@@ -38,5 +39,11 @@ public class StatusUpdater extends Thread {
     public void startUpdate() {
         update = true;
         start();
+    }
+
+    @Override
+    public synchronized void start() {
+        update = true;
+        super.start();
     }
 }
