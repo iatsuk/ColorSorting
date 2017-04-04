@@ -16,10 +16,12 @@ public class MainWindow {
     private JButton openButton;
     private JTextField outVideoTextField;
     private JButton saveButton;
-    private JComboBox widthComboBox;
     private JButton startButton;
     private JComboBox sortComboBox;
     private JPanel mainPanel;
+    private JProgressBar progressBar;
+    private JLabel statusBarLabel;
+    private JSpinner durationSecSpinner;
 
     public static MainWindow getInstance() {
         return instance;
@@ -46,6 +48,7 @@ public class MainWindow {
                 System.exit(0);
             }
         });
+        durationSecSpinner.setValue(15);
 
         frame.setContentPane(mainPanel);
         frame.pack();
@@ -62,8 +65,8 @@ public class MainWindow {
             String inputPath = inPathTextField.getText();
             String outputPath = outVideoTextField.getText();
             String sortMethod = sortComboBox.getModel().getSelectedItem().toString();
-            int videoResolution = Integer.parseInt(widthComboBox.getModel().getSelectedItem().toString().replaceAll("[\\D+]", ""));
-            App.start(inputPath, outputPath, sortMethod, videoResolution, 15); // TODO: 04.04.17 duration
+            int duration = (int) durationSecSpinner.getValue();
+            App.start(inputPath, outputPath, sortMethod, duration);
         }
     }
 }
