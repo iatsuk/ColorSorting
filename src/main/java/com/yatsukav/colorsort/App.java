@@ -19,6 +19,8 @@ public final class App {
             MainWindow.getInstance().show();
             statusUpdater.setProgressBar(MainWindow.getInstance().getProgressBar());
             statusUpdater.setStatusLabel(MainWindow.getInstance().getStatusBarLabel());
+            statusUpdater.startUpdate();
+            Runtime.getRuntime().addShutdownHook(new Thread(statusUpdater::stopUpdate));
         } else {
             start(args[0], args[1], args[2], Integer.parseInt(args[4]));
         }
@@ -26,7 +28,6 @@ public final class App {
 
     public static void start(String inputPath, String outputPath, String sortMethod, int maxDuration) {
         try {
-            statusUpdater.startUpdate();
             long time = System.currentTimeMillis();
             final String TEMP_PATH = "_tmp" + UUID.randomUUID();
 
@@ -66,7 +67,6 @@ public final class App {
             String totalTime = "Converting time: " + (System.currentTimeMillis() - time + "ms");
             System.out.println(totalTime);
             statusUpdater.setMessage(totalTime);
-            statusUpdater.stopUpdate();
         } catch (Exception e) {
             statusUpdater.setMessage(e.getMessage());
             e.printStackTrace();
