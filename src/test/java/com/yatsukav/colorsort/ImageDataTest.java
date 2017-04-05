@@ -1,5 +1,6 @@
 package com.yatsukav.colorsort;
 
+import com.yatsukav.colorsort.image.ImageData;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;

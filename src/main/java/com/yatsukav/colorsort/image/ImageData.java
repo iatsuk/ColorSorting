@@ -1,4 +1,4 @@
-package com.yatsukav.colorsort;
+package com.yatsukav.colorsort.image;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -8,13 +8,15 @@ import java.net.URI;
 
 public class ImageData {
     private BufferedImage image;
+    private ColorModel colorModel = ColorModel.RGB;
 
     public int[] getColors() {
         int[] result = new int[image.getHeight() * image.getWidth()];
 
         for (int y = 0; y < image.getHeight(); y++) {
             for (int x = 0; x < image.getWidth(); x++) {
-                result[x + y * image.getWidth()] = image.getRGB(x, y);
+                int color = colorModel.ofRGB(image.getRGB(x, y));
+                result[x + y * image.getWidth()] = color;
             }
         }
 
@@ -24,7 +26,8 @@ public class ImageData {
     public void setColors(int[] data) {
         for (int y = 0; y < image.getHeight(); y++) {
             for (int x = 0; x < image.getWidth(); x++) {
-                image.setRGB(x, y, data[x + y * image.getWidth()]);
+                int color = colorModel.toRGB(data[x + y * image.getWidth()]);
+                image.setRGB(x, y, color);
             }
         }
     }
@@ -43,6 +46,11 @@ public class ImageData {
 
     public ImageData load(URI uri) throws IOException {
         image = ImageIO.read(uri.toURL());
+        return this;
+    }
+
+    public ImageData setColorModel(ColorModel colorModel) {
+        this.colorModel = colorModel;
         return this;
     }
 }

@@ -1,6 +1,7 @@
 package com.yatsukav.colorsort.ui;
 
 import com.yatsukav.colorsort.App;
+import com.yatsukav.colorsort.image.ColorModel;
 import lombok.Getter;
 
 import javax.swing.*;
@@ -24,6 +25,7 @@ public class MainWindow {
     private JSpinner durationSecSpinner;
     @Getter private JProgressBar progressBar;
     @Getter private JLabel statusBarLabel;
+    private JComboBox colorModeComboBox;
 
     private MainWindow() {
         startButton.addActionListener(new ImageToMovieConverter());
@@ -49,6 +51,7 @@ public class MainWindow {
 
         frame.setContentPane(mainPanel);
         frame.pack();
+        frame.setResizable(false);
     }
 
     public void show() {
@@ -72,14 +75,13 @@ public class MainWindow {
             // run in thread
             String inputPath = inPathTextField.getText();
             String outputPath = outVideoTextField.getText();
+            ColorModel colorModel = ColorModel.valueOf(colorModeComboBox.getModel().getSelectedItem().toString());
             String sortMethod = sortComboBox.getModel().getSelectedItem().toString();
             int duration = (int) durationSecSpinner.getValue();
             new Thread(() -> {
-                App.start(inputPath, outputPath, sortMethod, duration);
+                App.start(inputPath, outputPath, colorModel, sortMethod, duration);
                 enableUI();
             }).start();
-
-            // enable ui
         }
 
         private void disableUI() {
@@ -88,6 +90,7 @@ public class MainWindow {
             outVideoTextField.setEnabled(false);
             saveButton.setEnabled(false);
             startButton.setEnabled(false);
+            colorModeComboBox.setEnabled(false);
             sortComboBox.setEnabled(false);
             durationSecSpinner.setEnabled(false);
         }
@@ -98,6 +101,7 @@ public class MainWindow {
             outVideoTextField.setEnabled(true);
             saveButton.setEnabled(true);
             startButton.setEnabled(true);
+            colorModeComboBox.setEnabled(true);
             sortComboBox.setEnabled(true);
             durationSecSpinner.setEnabled(true);
         }

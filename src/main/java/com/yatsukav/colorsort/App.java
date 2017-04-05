@@ -1,5 +1,7 @@
 package com.yatsukav.colorsort;
 
+import com.yatsukav.colorsort.image.ColorModel;
+import com.yatsukav.colorsort.image.ImageData;
 import com.yatsukav.colorsort.movie.MovieMaker;
 import com.yatsukav.colorsort.sorts.ImageSorter;
 import com.yatsukav.colorsort.ui.MainWindow;
@@ -22,17 +24,17 @@ public final class App {
             statusUpdater.startUpdate();
             Runtime.getRuntime().addShutdownHook(new Thread(statusUpdater::stopUpdate));
         } else {
-            start(args[0], args[1], args[2], Integer.parseInt(args[4]));
+            start(args[0], args[1], ColorModel.valueOf(args[2]), args[3], Integer.parseInt(args[4]));
         }
     }
 
-    public static void start(String inputPath, String outputPath, String sortMethod, int maxDuration) {
+    public static void start(String inputPath, String outputPath, ColorModel colorModel, String sortMethod, int maxDuration) {
         try {
             long time = System.currentTimeMillis();
             final String TEMP_PATH = "_tmp" + UUID.randomUUID();
 
             statusUpdater.setMessage("Loading image...");
-            ImageData imageData = new ImageData().load(new File(inputPath).toURI());
+            ImageData imageData = new ImageData().load(new File(inputPath).toURI()).setColorModel(colorModel);
             ImageSorter imageSorter = ImageSorter.of(sortMethod).setImage(imageData);
 
             statusUpdater.setMessage("Calculating total time of work...");

@@ -1,7 +1,7 @@
 package com.yatsukav.colorsort.sorts;
 
-import com.yatsukav.colorsort.ImageData;
 import com.yatsukav.colorsort.StatusUpdater;
+import com.yatsukav.colorsort.image.ImageData;
 
 import java.io.File;
 import java.io.IOException;
