@@ -36,7 +36,11 @@ public final class App {
             ImageSorter imageSorter = ImageSorter.of(sortMethod).setImage(imageData);
 
             statusUpdater.setMessage("Calculating total time of work...");
+            System.out.println("Image size: " + imageData.getWidth() + " x " + imageData.getHeight() + " px");
+            System.out.println("Colors array size: " + imageData.getColors().length);
+            long tmpTime = System.currentTimeMillis();
             long maxOutputImages = imageSorter.calcMaxOutputImages();
+            System.out.println("Only sorting time, ms: " + (System.currentTimeMillis() - tmpTime));
             int frameRate = 30;
             int step = 1;
             if (maxOutputImages > frameRate * maxDuration) {
@@ -50,9 +54,11 @@ public final class App {
 
             statusUpdater.setMessage("Draw frames...");
             statusUpdater.setMaxSteps((int) (maxOutputImages / step));
+            tmpTime = System.currentTimeMillis();
             imageSorter.setStatusUpdater(statusUpdater)
                     .setPath(TEMP_PATH)
                     .save(step);
+            System.out.println("Sorting and saving to jpeg time, ms: " + (System.currentTimeMillis() - tmpTime));
 
             System.out.println("Images: ");
             imageSorter.getImages().forEach(System.out::println);
@@ -64,7 +70,7 @@ public final class App {
             delete(new File(TEMP_PATH));
             delete(new File("jmf.log"));
 
-            String totalTime = "Converting time: " + (System.currentTimeMillis() - time + "ms");
+            String totalTime = "Converting time: " + (System.currentTimeMillis() - time) + "ms";
             System.out.println(totalTime);
             statusUpdater.setMessage(totalTime);
         } catch (Exception e) {
