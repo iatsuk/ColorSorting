@@ -4,7 +4,7 @@
 
     <groupId>com.yatsukav.colorsort</groupId>
     <artifactId>ColorSorting</artifactId>
-    <version>0.0.11-SNAPSHOT</version>
+    <version>0.0.12-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>ColorSorting</name>
@@ -19,7 +19,7 @@
         <dependency>
             <groupId>javax.media</groupId>
             <artifactId>jmf</artifactId>
-            <version>fs-3.0</version>
+            <version>2.1.1e</version>
         </dependency>
 
         <!-- Test utils -->
