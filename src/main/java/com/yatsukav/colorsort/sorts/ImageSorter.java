@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 import java.util.Vector;
 
 public abstract class ImageSorter {
+    protected long maxOutputImages;
     protected ImageData image;
     private String path;
     private Vector<String> images = new Vector<>();
@@ -65,7 +66,14 @@ public abstract class ImageSorter {
         }
     }
 
-    public abstract long calcMaxOutputImages();
+    public long calcMaxOutputImages() {
+        sort(image.getColors(), false, Integer.MAX_VALUE);
+        return maxOutputImages;
+    }
 
-    protected abstract void sort(int persistStep);
+    protected void sort(int persistStep) {
+        sort(image.getColors(), true, persistStep);
+    }
+
+    protected abstract void sort(int[] unsorted, boolean withPersisting, int persistStep);
 }
