@@ -86,6 +86,7 @@
           <model>
             <item value="Bubble Sort"/>
             <item value="Quick Sort"/>
+            <item value="Radix Sort"/>
           </model>
         </properties>
       </component>

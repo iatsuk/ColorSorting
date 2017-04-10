@@ -21,6 +21,7 @@ public abstract class ImageSorter {
         switch (s) {
             case "Bubble Sort": return new ImageBubbleSorter();
             case "Quick Sort": return new ImageQuickSorter();
+            case "Radix Sort": return new ImageRadixSorter();
             default: throw new IllegalArgumentException("Unknown ImageSorter type: " + s);
         }
     }
