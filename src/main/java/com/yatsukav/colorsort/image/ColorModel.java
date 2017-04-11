@@ -7,8 +7,10 @@ public enum ColorModel {
 
     public int ofRGB(int value) {
         switch (this) {
-            case RGB:
-                return value;
+            case RGB: {
+                Color color = new Color(value);
+                return color3dTo1d(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f);
+            }
             case HSB: {
                 Color color = new Color(value);
                 float[] hsb = Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), null);
@@ -26,8 +28,10 @@ public enum ColorModel {
 
     public int toRGB(int value) {
         switch (this) {
-            case RGB:
-                return value;
+            case RGB:{
+                float[] rgb = color1dTo3d(value);
+                return new Color(rgb[0], rgb[1], rgb[2]).getRGB();
+            }
             case HSB: {
                 float[] hsb = color1dTo3d(value);
                 return Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]);
