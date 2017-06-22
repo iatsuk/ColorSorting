@@ -18,12 +18,15 @@ public abstract class ImageSorter {
     private StatusUpdater statusUpdater = null;
 
     public static ImageSorter of(String s) throws IOException {
+        //@formatter:off
         switch (s) {
             case "Bubble Sort": return new ImageBubbleSorter();
             case "Quick Sort": return new ImageQuickSorter();
             case "Radix Sort": return new ImageRadixSorter();
+            case "American Flag Sort": return new ImageAmericanFlagSorter();
             default: throw new IllegalArgumentException("Unknown ImageSorter type: " + s);
         }
+        //@formatter:on
     }
 
     public ImageSorter setImage(ImageData image) {
