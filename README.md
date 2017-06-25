@@ -7,7 +7,7 @@
 - Add Menu with next items
     - Generate Color Noise
     - Get Sorted Image (without video)
-- 2d sorting
+- 2d sorting via Comparable implementation for coordinates
 - Add more sort algorithms
     - [Rosetta Code](http://rosettacode.org/wiki/Category:Sorting_Algorithms)
     - [phishman3579](https://github.com/phishman3579/java-algorithms-implementation)

@@ -23,6 +23,7 @@ public abstract class ImageSorter {
             case "Quick Sort": return new ImageQuickSorter();
             case "Merge Sort": return new ImageMergeSorter();
             case "Heap Sort": return new ImageHeapSorter();
+            case "Shell Sort": return new ImageShellSorter();
             case "Bubble Sort": return new ImageBubbleSorter();
             case "Insertion Sort": return new ImageInsertionSorter();
             case "Counting Sort": return new ImageCountingSorter();

@@ -87,6 +87,7 @@
             <item value="Quick Sort"/>
             <item value="Merge Sort"/>
             <item value="Heap Sort"/>
+            <item value="Shell Sort"/>
             <item value="Bubble Sort"/>
             <item value="Insertion Sort"/>
             <item value="Counting Sort"/>
