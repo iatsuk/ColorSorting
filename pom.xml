@@ -4,7 +4,7 @@
 
     <groupId>com.yatsukav.colorsort</groupId>
     <artifactId>ColorSorting</artifactId>
-    <version>0.0.12-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>ColorSorting</name>
@@ -48,17 +48,18 @@
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
-            <version>2.1</version>
+            <version>2.6</version>
         </dependency>
         <dependency>
             <groupId>org.codehaus.plexus</groupId>
             <artifactId>plexus-utils</artifactId>
-            <version>1.1</version>
+            <version>3.0.24</version>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
+            <!-- Set Java 8 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -69,6 +70,7 @@
                 </configuration>
             </plugin>
 
+            <!-- Manifest -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -79,6 +81,18 @@
                             <mainClass>com.yatsukav.colorsort.App</mainClass>
                         </manifest>
                     </archive>
+                </configuration>
+            </plugin>
+
+            <!-- Check lasts versions of dependencies -->
+            <plugin>
+                <groupId>com.versioneye</groupId>
+                <artifactId>versioneye-maven-plugin</artifactId>
+                <version>3.11.4</version>
+                <configuration>
+                    <apiKey>4602e62062b5b9cdd3dd</apiKey>
+                    <organisation>yatsukav</organisation>
+                    <team>Owners</team>
                 </configuration>
             </plugin>
         </plugins>
