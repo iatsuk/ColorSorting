@@ -21,8 +21,9 @@ public abstract class ImageSorter {
         //@formatter:off
         switch (s) {
             case "Bubble Sort": return new ImageBubbleSorter();
-            case "Counting Sort": return new ImageCountingSorter();
             case "Quick Sort": return new ImageQuickSorter();
+            case "Heap Sort": return new ImageHeapSorter();
+            case "Counting Sort": return new ImageCountingSorter();
             case "Radix Sort": return new ImageRadixSorter();
             case "American Flag Sort": return new ImageAmericanFlagSorter();
             default: throw new IllegalArgumentException("Unknown ImageSorter type: " + s);
