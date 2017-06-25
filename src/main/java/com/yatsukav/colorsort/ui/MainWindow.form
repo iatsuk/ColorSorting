@@ -84,9 +84,10 @@
         </constraints>
         <properties>
           <model>
-            <item value="Bubble Sort"/>
             <item value="Quick Sort"/>
             <item value="Heap Sort"/>
+            <item value="Bubble Sort"/>
+            <item value="Insertion Sort"/>
             <item value="Counting Sort"/>
             <item value="Radix Sort"/>
             <item value="American Flag Sort"/>

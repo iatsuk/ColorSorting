@@ -20,9 +20,10 @@ public abstract class ImageSorter {
     public static ImageSorter of(String s) throws IOException {
         //@formatter:off
         switch (s) {
-            case "Bubble Sort": return new ImageBubbleSorter();
             case "Quick Sort": return new ImageQuickSorter();
             case "Heap Sort": return new ImageHeapSorter();
+            case "Bubble Sort": return new ImageBubbleSorter();
+            case "Insertion Sort": return new ImageInsertionSorter();
             case "Counting Sort": return new ImageCountingSorter();
             case "Radix Sort": return new ImageRadixSorter();
             case "American Flag Sort": return new ImageAmericanFlagSorter();
