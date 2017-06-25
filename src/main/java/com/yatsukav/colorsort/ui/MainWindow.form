@@ -85,6 +85,7 @@
         <properties>
           <model>
             <item value="Quick Sort"/>
+            <item value="Merge Sort"/>
             <item value="Heap Sort"/>
             <item value="Bubble Sort"/>
             <item value="Insertion Sort"/>

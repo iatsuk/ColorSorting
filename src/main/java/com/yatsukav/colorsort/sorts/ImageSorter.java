@@ -21,6 +21,7 @@ public abstract class ImageSorter {
         //@formatter:off
         switch (s) {
             case "Quick Sort": return new ImageQuickSorter();
+            case "Merge Sort": return new ImageMergeSorter();
             case "Heap Sort": return new ImageHeapSorter();
             case "Bubble Sort": return new ImageBubbleSorter();
             case "Insertion Sort": return new ImageInsertionSorter();
