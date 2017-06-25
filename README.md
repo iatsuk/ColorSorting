@@ -3,6 +3,7 @@
 [![GitHub license](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](https://raw.githubusercontent.com/yatsukav/ColorSorting/master/LICENSE)
 
 ## TODO
+- CheckStyle
 - Add Menu with next items
     - Generate Color Noise
     - Get Sorted Image (without video)

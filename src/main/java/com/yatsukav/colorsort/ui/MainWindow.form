@@ -85,6 +85,7 @@
         <properties>
           <model>
             <item value="Bubble Sort"/>
+            <item value="Counting Sort"/>
             <item value="Quick Sort"/>
             <item value="Radix Sort"/>
             <item value="American Flag Sort"/>
