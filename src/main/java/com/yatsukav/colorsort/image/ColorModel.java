@@ -58,4 +58,18 @@ public enum ColorModel {
         int tail = color % 1000;
         return new float[]{head / 100f, secondary / 100f, tail / 100f};
     }
+
+    private int color3dTo2d(float d1, float d2, float d3) {
+        int head = (int) (d1 * 100) * 1_000_000;
+        int secondary = (int) (d2 * 100) * 1_000;
+        int tail = (int) (d3 * 100);
+        return head + secondary + tail;
+    }
+
+    private float[] color2dTo3d(int color) {
+        int head = color / 1000000;
+        int secondary = color / 1000 % 1000;
+        int tail = color % 1000;
+        return new float[]{head / 100f, secondary / 100f, tail / 100f};
+    }
 }
